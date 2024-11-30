@@ -68,7 +68,7 @@ RadarProject/
 │   │   └── ...            # Driver files
 │   ├── tools/             # Signal processing utilities
 │   │   ├── calib.m        # Calibration function
-│   │   └── process.m         # Process function
+│   │   └── process.m      # Process function
 │   └── data/              # Data storage
 │       ├── calib.txt      # Calibration data
 │       ├── cal.mat        # Calibration matrix
