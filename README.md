@@ -6,6 +6,7 @@ This project implements a phased array radar system using MATLAB for signal proc
 
 ### AutoScan.m
 The main program that provides a user interface with four options:
+
 0. Plot existing data
 1. Calibration
 2. Single Scan and Plot
