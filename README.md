@@ -61,6 +61,7 @@ Core signal processing function that:
    - Option 3: Continuous scanning with real-time updates
 
 ## Project Structure
+```
 RadarProject/
 ├── MICX/
 │   ├── AutoScan.m         # Main program interface
@@ -73,3 +74,4 @@ RadarProject/
 │       ├── calib.txt      # Calibration data
 │       ├── cal.mat        # Calibration matrix
 │       └── data.txt       # Scan measurement data
+```
