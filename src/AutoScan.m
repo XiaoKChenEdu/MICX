@@ -19,30 +19,34 @@ while true
             processData = load(processFile);
             process(processData);
             
-        case {1, 2, 3}
+        case 1
             close all; clear; clc;
             [nChannels, lChEnable] = initializeBoard();
             setupBoardForRecording(nChannels, lChEnable);
-            
-            if choice == 1
-                data = acquireData(nChannels);
-                dlmwrite('./data/calib.txt', data, 'delimiter', ' ', 'precision', '%.6f');
+            data = acquireData(nChannels);
+            dlmwrite('./data/calib.txt', data, 'delimiter', ' ', 'precision', '%.6f');
+            calib;
                 
-            elseif choice == 2
+        case 2
+            close all; clear; clc;
+            [nChannels, lChEnable] = initializeBoard();
+            setupBoardForRecording(nChannels, lChEnable);
+            data = acquireData(nChannels);
+            dlmwrite('./data/data.txt', data, 'delimiter', ' ', 'precision', '%.6f');
+            processData = load('./data/data.txt');
+            process(processData);
+                
+        case 3
+            while true
+                close all; clear; clc;
+                [nChannels, lChEnable] = initializeBoard();
+                setupBoardForRecording(nChannels, lChEnable);
                 data = acquireData(nChannels);
                 dlmwrite('./data/data.txt', data, 'delimiter', ' ', 'precision', '%.6f');
                 processData = load('./data/data.txt');
                 process(processData);
-                
-            else % choice == 3
-                while true
-                    data = acquireData(nChannels);
-                    dlmwrite('./data/data.txt', data, 'delimiter', ' ', 'precision', '%.6f');
-                    processData = load('./data/data.txt');
-                    process(processData);
-                    pause(2);
-                    close all;
-                end
+                pause(2);
+                close all;
             end
             
         otherwise
