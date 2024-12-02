@@ -14,11 +14,13 @@ while true
     
     switch choice
         case 0
+            close all; clear; clc;
             processFile = './data/data.txt';
             processData = load(processFile);
             process(processData);
             
         case {1, 2, 3}
+            close all; clear; clc;
             [nChannels, lChEnable] = initializeBoard();
             setupBoardForRecording(nChannels, lChEnable);
             
