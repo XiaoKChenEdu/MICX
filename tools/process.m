@@ -43,12 +43,33 @@ end
 
 mag_db = 20*log10(mag);
 
-[~,x_deg] = max(mag);
-fprintf('The Angle of arrival : %f\n', (x_deg/10)-90)
+% Convert magnitude to linear scale for better visualization
+mag_normalized = (mag_db - min(mag_db)) / (max(mag_db) - min(mag_db));
 
-plot(d_deg,mag_db)
-axis([-90 90 -50 30])
-xlabel('\theta (Degree)')
-ylabel('Magitude (db)')
+% Find the peak angle and magnitude
+[peak_mag, peak_idx] = max(mag_normalized);
+peak_angle = d_deg(peak_idx);
+
+% Create polar plot
+figure('Position', [100 100 600 600])
+polarplot(d_rad, mag_normalized, 'b-', 'LineWidth', 1.5);
+hold on
+
+% Plot the peak point
+peak_rad = d_rad(peak_idx);
+polarplot(peak_rad, peak_mag, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+
+% Customize the polar plot
+rlim([0 1]);
+thetalim([-90 90]);
+rticks(0:0.2:1);
+thetaticks(-90:30:90);
+pax = gca;
+pax.ThetaZeroLocation = 'top';
+pax.ThetaDir = 'clockwise';
 grid on
+
+% Add title with angle information
+title(sprintf('Angle of Arrival: %.1f°', peak_angle));
+
 end
