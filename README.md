@@ -5,12 +5,13 @@ This project implements a phased array radar system using MATLAB for signal proc
 ## Files Overview
 
 ### AutoScan.m
-The main program that provides a user interface with four options:
+The main program that provides a user interface with five options:
 
 0. Plot existing data
 1. Calibration
 2. Single Scan and Plot
 3. Continuous Auto-Scanning
+4. Auto-Tracking (Testing)
 
 ### tools/process.m
 Core signal processing function that:
@@ -20,6 +21,13 @@ Core signal processing function that:
 - Applies calibration corrections
 - Implements digital beamforming
 - Generates polar plots with angle of arrival
+
+### tools/process_track.m
+Enhanced signal processing function that:
+- Performs all standard processing functions from process.m
+- Calculates target distance using signal strength analysis
+- Provides real-time tracking with distance measurements
+- Displays both angle and range information in polar plot
 
 ### tools/board_functions/
 Board control and setup utilities:
@@ -50,6 +58,7 @@ Board control and setup utilities:
    - Option 1: Perform system calibration
    - Option 2: Single scan with immediate plot
    - Option 3: Continuous scanning with real-time updates
+   - Option 4: Auto-tracking mode with distance measurements (Testing)
 
 ## Project Structure
 ```
@@ -64,7 +73,8 @@ RadarProject/
 │   │   │   ├── setupBoardForRecording.m # Configures board parameters for data acquisition
 │   │   │   └── acquireData.m            # Handles data acquisition from configured channels
 │   │   ├── calib.m                      # Calibration function
-│   │   └── process.m                    # Process function
+│   │   ├── process.m                    # Process function
+│   │   └── process_track.m              # Enhanced process function
 │   └── data/                            # Data storage
 │       ├── calib.txt                    # Calibration data
 │       ├── cal.mat                      # Calibration matrix

@@ -21,7 +21,23 @@ function process(processdata)
     w_org = exp(1j*phase);
     
     load('./data/cal.mat');
-    
+    caldata= load('./data/calib.txt');
+    processdata=load('./data/data.txt');
+    maxcaldata=max([max(caldata(:,2:2))-min(caldata(:,2:2)) max(caldata(:,3:3))-min(caldata(:,3:3)) max(caldata(:,4:4))-min(caldata(:,4:4)) max(caldata(:,5:5))-min(caldata(:,5:5)) max(caldata(:,6:6))-min(caldata(:,6:6)) max(caldata(:,7:7))-min(caldata(:,7:7)) max(caldata(:,8:8))-min(caldata(:,8:8))]);
+    maxprocessdata=max([max(processdata(:,2:2))-min(processdata(:,2:2)) max(processdata(:,3:3))-min(processdata(:,3:3)) max(processdata(:,4:4))-min(processdata(:,4:4)) max(processdata(:,5:5))-min(processdata(:,5:5)) max(processdata(:,6:6))-min(processdata(:,6:6)) max(processdata(:,7:7))-min(processdata(:,7:7)) max(processdata(:,8:8))-min(processdata(:,8:8))]);
+
+    percent=maxprocessdata/maxcaldata;
+
+    if percent > 1
+        temp = percent-1;
+        percent = 1-(0.175)+(0.02285*temp);
+
+    else
+        percent = percent-0.175;
+    end
+
+    display(percent);
+
     % Phase after calibration
     w_center = w_org.*conj(exp(1j*cal));
     
@@ -47,18 +63,14 @@ function process(processdata)
 
     % Create radar-style plot
     set(gcf, 'Color', 'k');
-    
     mag = mag/peak_mag;
 
-    % Create polar plot with adjusted angles
-    % h = polar(pi/2 - d_rad, mag/1.5, 'g-');
-    % set(h, 'LineWidth', 2);
-    polar(0, max(mag), '');  % without the line
+    polar(0, 100, '');  % without the line
     hold on
     
     % Plot the peak point
     peak_rad = peak_angle * pi/180;
-    h_peak = polar(pi/2 - peak_rad, (mag(peak_idx)/1.5), 'ro');
+    h_peak = polar(pi/2 - peak_rad, 2.285*(100*(1-percent)), 'ro');
     set(h_peak, 'MarkerSize', 10, 'MarkerFaceColor', 'r');
     hold off
 
@@ -75,7 +87,7 @@ function process(processdata)
         val = str2num(txt);
         
         % Only modify if it's a number between 0 and 360 and near the rim
-        if ~isempty(val) && val >= 0 && val <= 360 && norm(pos(1:2)) > max(mag)*0.85
+        if ~isempty(val) && val >= 0 && val <= 360 && norm(pos(1:2)) > max(mag)*110
             new_val = mod(-val + 90, 360);
             set(t(i), 'String', num2str(new_val));
         end
@@ -85,7 +97,7 @@ function process(processdata)
     grid on;
     
     % Add title with precise angle information
-    title(sprintf('Target Detection at %.2f°', peak_angle), ...
+    title(sprintf('Target Detection at %.2f° at %.2f cm away', peak_angle, 2.285*(100*(1-percent))), ...
         'Color', [0 0.8 0], 'FontSize', 12);
     
 end
